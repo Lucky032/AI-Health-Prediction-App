@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Patient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <h1>AI Health Prediction</h1>
+        <a href="{{ url_for('index') }}" class="btn">Back to Dashboard</a>
+    </header>
+
+    <main class="container form-container">
+        <h2>Add Patient Record</h2>
+        <p>Enter the patient's details and blood-test results.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form action="{{ url_for('add_patient') }}" method="POST" id="patientForm">
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="full_name"
+                   maxlength="150" required
+                   value="{{ form_data.get('full_name', '') if form_data else '' }}">
+
+            <label for="date_of_birth">Date of Birth</label>
+            <input type="text" id="date_of_birth" name="date_of_birth"
+                   placeholder="DD/MM/YYYY" required
+                   value="{{ form_data.get('date_of_birth', '') if form_data else '' }}">
+
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email"
+                   maxlength="254" required
+                   value="{{ form_data.get('email', '') if form_data else '' }}">
+
+            <label for="glucose">Glucose</label>
+            <input type="number" id="glucose" name="glucose"
+                   min="0" max="100000" step="any" required
+                   value="{{ form_data.get('glucose', '') if form_data else '' }}">
+
+            <label for="haemoglobin">Haemoglobin</label>
+            <input type="number" id="haemoglobin" name="haemoglobin"
+                   min="0" max="100000" step="any" required
+                   value="{{ form_data.get('haemoglobin', '') if form_data else '' }}">
+
+            <label for="cholesterol">Cholesterol</label>
+            <input type="number" id="cholesterol" name="cholesterol"
+                   min="0" max="100000" step="any" required
+                   value="{{ form_data.get('cholesterol', '') if form_data else '' }}">
+
+            <p class="disclaimer">
+                AI-generated remarks are informational only, not a diagnosis.
+            </p>
+
+            <button type="submit" class="btn" id="submitButton">
+                Save Patient & Generate AI Remarks
+            </button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
